@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta charset="UTF-8"/>
+    <title sec:authentication="name"></title>
+    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}"/>
+    <style type="text/css">
+        body {
+            padding-top: 50px;
+        }
+
+        .starter-template {
+            padding: 40px 15px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Spring Security演示</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <div class="starter-template">
+        <div sec:authorize="isAuthenticated()">
+
+            <p>Hello</p>
+            <p>你已登录</p>
+            <p>登录名：<span sec:authentication="name"></span></p>
+
+            <p>拥有的角色：
+                <span sec:authorize="hasRole('ROLE_ADMIN')">管理员</span>
+                <span sec:authorize="hasRole('ROLE_USER')">普通用户</span>
+            </p>
+        </div>
+
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" class="btn btn-primary" value="Logout"/>
+        </form>
+        <div sec:authorize="hasRole('ROLE_ADMIN')">
+        <form th:action="@{/toAddUser}" method="post">
+            <input type="submit" class="btn btn-primary" value="Create"/>
+        </form>
+        </div>
+    </div>
+
+
+</div>
+</body>
+</html>
